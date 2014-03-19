@@ -346,6 +346,9 @@ class PHP_Depend_Tokenizer_Internal implements PHP_Depend_TokenizerI
             self::T_CONST            =>  self::T_STRING,
             self::T_FUNCTION         =>  self::T_STRING,
         ),
+        self::T_CLASS => array(
+            self::T_DOUBLE_COLON     => self::T_CLASS_FQN,
+        ),
     );
 
     /**

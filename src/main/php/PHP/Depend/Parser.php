@@ -3944,6 +3944,11 @@ abstract class PHP_Depend_Parser implements PHP_Depend_ConstantsI
             $postfix = $this->parseMethodOrConstantPostfix();
             break;
 
+        case self::T_CLASS_FQN:
+            $postfix = $this->parseFullQualifiedClassNamePostfix();
+            break;
+
+
         default:
             $postfix = $this->parseMethodOrPropertyPostfix(
                 $this->parsePostfixIdentifier()
@@ -4037,6 +4042,22 @@ abstract class PHP_Depend_Parser implements PHP_Depend_ConstantsI
         $postfix->setStartColumn($node->getStartColumn());
 
         return $postfix;
+    }
+
+    /**
+     * Parses a full qualified class name postfix.
+     *
+     * @return PHP_Depend_Code_ASTClassFqnPostfix
+     */
+    private function parseFullQualifiedClassNamePostfix()
+    {
+        $this->tokenStack->push();
+
+        $this->consumeToken(self::T_CLASS_FQN);
+
+        return $this->setNodePositionsAndReturn(
+            $this->builder->buildAstClassFqnPostfix()
+        );
     }
 
     /**
@@ -6287,6 +6308,10 @@ abstract class PHP_Depend_Parser implements PHP_Depend_ConstantsI
 
             case self::T_DOUBLE_COLON:
                 $this->consumeToken(self::T_DOUBLE_COLON);
+                break;
+
+            case self::T_CLASS_FQN:
+                $this->consumeToken(self::T_CLASS_FQN);
                 break;
 
             case self::T_PLUS:

@@ -1368,6 +1368,26 @@ class PHP_Depend_Builder_Default implements PHP_Depend_BuilderI
     }
 
     /**
+     * Builds a new full qualified class name postfix expression.
+     *
+     * <code>
+     * //   -----
+     * Foo::class;
+     * //   -----
+     *
+     * //       -----
+     * $object::class;
+     * //       -----
+     * </code>
+     *
+     * @return PHP_Depend_Code_ASTClassFqnPostfix
+     */
+    public function buildAstClassFqnPostfix()
+    {
+        return $this->buildAstNodeInstance('ASTClassFqnPostfix', 'class');
+    }
+
+    /**
      * Builds a new arguments list.
      *
      * <code>
